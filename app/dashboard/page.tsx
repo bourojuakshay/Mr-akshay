@@ -38,24 +38,24 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-32 md:pb-12">
-      <div className="relative py-8 sm:py-12 px-4 sm:px-6">
+    <div className="min-h-screen bg-background pb-28 md:pb-12">
+      <div className="relative py-6 sm:py-12 px-4 sm:px-6">
         {/* Abstract Background Elements */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -z-10" />
-        <div className="absolute bottom-40 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] -z-10" />
+        <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/5 rounded-full blur-[80px] md:blur-[120px] -z-10" />
+        <div className="absolute bottom-40 left-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-accent/5 rounded-full blur-[70px] md:blur-[100px] -z-10" />
 
         <div className="max-w-6xl mx-auto">
           {/* Enhanced Header Section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 animate-in fade-in slide-in-from-top-4">
-            <div className="space-y-2">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-12 animate-in fade-in slide-in-from-top-4">
+            <div className="space-y-1 md:space-y-2">
               <div className="flex items-center gap-2">
-                <span className="w-8 h-1 bg-primary rounded-full" />
-                <p className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">{greeting}</p>
+                <span className="w-6 md:w-8 h-1 bg-primary rounded-full" />
+                <p className="text-primary font-black uppercase tracking-[0.2em] text-[9px] md:text-[10px]">{greeting}</p>
               </div>
-              <h1 className="text-4xl sm:text-5xl font-black text-foreground tracking-tight">
-                Welcome back, <span className="text-primary">Recycler!</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground tracking-tight leading-tight">
+                Welcome back, <br className="sm:hidden" /> <span className="text-primary">Recycler!</span>
               </h1>
-              <p className="text-muted-foreground font-medium text-sm sm:text-base border-l-2 border-border pl-4 mt-4">
+              <p className="text-muted-foreground font-medium text-xs sm:text-base border-l-2 border-border pl-3 md:pl-4 mt-2 md:mt-4 break-all max-w-[280px] sm:max-w-none">
                 {user.email}
               </p>
             </div>

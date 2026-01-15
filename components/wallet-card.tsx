@@ -46,30 +46,30 @@ export function WalletCard() {
   }, [wallet, displayWallet])
 
   return (
-    <div className="relative group overflow-hidden bg-slate-900 border border-slate-800 rounded-[2rem] p-8 shadow-2xl transition-all duration-500 hover:shadow-cyan-500/10 active:scale-[0.99] scanner-border">
+    <div className="relative group overflow-hidden bg-slate-900 border border-slate-800 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 shadow-2xl transition-all duration-500 hover:shadow-cyan-500/10 active:scale-[0.99] scanner-border">
       {/* Glossy Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
 
       {/* Background Shapes */}
-      <div className="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] group-hover:bg-cyan-500/20 transition-colors duration-500" />
-      <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-600/10 rounded-full blur-[80px] group-hover:bg-blue-600/20 transition-colors duration-500" />
+      <div className="absolute -right-20 -top-20 w-48 md:w-64 h-48 md:h-64 bg-cyan-500/10 rounded-full blur-[60px] md:blur-[80px] group-hover:bg-cyan-500/20 transition-colors duration-500" />
+      <div className="absolute -left-20 -bottom-20 w-48 md:w-64 h-48 md:h-64 bg-blue-600/10 rounded-full blur-[60px] md:blur-[80px] group-hover:bg-blue-600/20 transition-colors duration-500" />
 
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-xl">
-              <Wallet className="w-5 h-5 text-cyan-400" />
+        <div className="flex items-center justify-between mb-6 md:mb-8">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="p-2 md:p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-lg md:rounded-xl">
+              <Wallet className="w-4 h-4 md:w-5 md:h-5 text-cyan-400" />
             </div>
-            <span className="text-slate-400 text-sm font-bold tracking-widest uppercase">Digital Wallet</span>
+            <span className="text-slate-400 text-[10px] md:text-sm font-bold tracking-widest uppercase">Digital Wallet</span>
           </div>
-          <CreditCard className="w-6 h-6 text-slate-700" />
+          <CreditCard className="w-5 h-5 md:w-6 md:h-6 text-slate-700" />
         </div>
 
         <div className="space-y-1">
-          <p className="text-slate-500 text-xs font-medium ml-1">Current Balance</p>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl sm:text-4xl font-bold text-slate-300">₹</span>
-            <span className="text-5xl sm:text-6xl font-black tracking-tighter text-white drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+          <p className="text-slate-500 text-[10px] md:text-xs font-medium ml-1">Current Balance</p>
+          <div className="flex items-baseline gap-1 md:gap-2 overflow-hidden">
+            <span className="text-2xl md:text-4xl font-bold text-slate-300">₹</span>
+            <span className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-white drop-shadow-[0_0_15px_rgba(34,211,238,0.3)] truncate">
               {displayWallet.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
           </div>
