@@ -1,7 +1,6 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { Header } from "@/components/header"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import Link from "next/link"
@@ -27,7 +26,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
 
       <div className="relative py-6 sm:py-8 px-4 sm:px-6">
         {/* background effects */}

@@ -93,7 +93,7 @@ export default function ClaimPage() {
   const displayType = wasteType as keyof typeof wasteTypeDisplay
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 text-foreground">
       <Confetti trigger={showConfetti} />
 
       {/* background effects */}
@@ -129,18 +129,18 @@ export default function ClaimPage() {
             </p>
 
             {/* amount display or already claimed message */}
-            <div className={`bg-slate-900/50 border ${alreadyClaimedByMe ? "border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.2)]" : "border-cyan-500/30"} rounded-2xl p-8 mb-8 scanner-border animate-in slide-in-from-bottom-4 duration-500`}>
+            <div className={`bg-card/50 border ${alreadyClaimedByMe ? "border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.2)]" : "border-primary/30"} rounded-2xl p-8 mb-8 scanner-border animate-in slide-in-from-bottom-4 duration-500`}>
               {alreadyClaimedByMe ? (
-                <div className="text-2xl font-bold text-red-400 animate-pulse">
+                <div className="text-2xl font-bold text-red-500 animate-pulse">
                   this reward is already claimed !
                 </div>
               ) : (
                 <>
-                  <div className="text-gray-400 text-sm mb-2">Amount Earned</div>
-                  <div className="text-5xl font-bold text-transparent bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text mb-4">
+                  <div className="text-muted-foreground text-sm mb-2">Amount Earned</div>
+                  <div className="text-5xl font-bold text-transparent bg-gradient-to-r from-green-500 to-cyan-500 bg-clip-text mb-4">
                     ₹{amount.toFixed(2)}
                   </div>
-                  <div className="text-sm text-gray-500">{wasteTypeDisplay[displayType]?.name || "Waste"}</div>
+                  <div className="text-sm text-muted-foreground">{wasteTypeDisplay[displayType]?.name || "Waste"}</div>
                 </>
               )}
             </div>
@@ -163,7 +163,7 @@ export default function ClaimPage() {
 
             <Link
               href="/dashboard"
-              className="w-full py-3 px-6 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition transform hover:scale-105 duration-200 inline-block"
+              className="w-full py-3 px-6 bg-gradient-to-r from-primary to-blue-600 text-primary-foreground font-semibold rounded-lg hover:shadow-lg hover:shadow-primary/50 transition transform hover:scale-105 duration-200 inline-block"
             >
               Back to Dashboard
             </Link>
@@ -194,7 +194,7 @@ export default function ClaimPage() {
               </Link>
               <Link
                 href="/dashboard"
-                className="block py-3 px-6 bg-slate-800 text-white font-semibold rounded-lg hover:bg-slate-700 transition"
+                className="block py-3 px-6 bg-muted text-foreground font-semibold rounded-lg hover:bg-muted/80 transition"
               >
                 Back to Dashboard
               </Link>

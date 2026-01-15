@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { AuthProvider } from "@/lib/auth-context"
 import { ThemeProvider } from "@/lib/theme-context"
+import { BottomNav } from "@/components/bottom-nav"
+import { Header } from "@/components/header"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -41,7 +43,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans antialiased bg-background text-foreground`} suppressHydrationWarning>
         <ThemeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <Header />
+            <main className="pb-24 md:pb-20 min-h-screen">
+              {children}
+            </main>
+            <BottomNav />
+          </AuthProvider>
         </ThemeProvider>
         <Analytics />
       </body>

@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback } from "react"
-import { useTheme } from "@/lib/theme-context"
 import { BrowserMultiFormatReader } from "@zxing/library"
+import { Loader2 } from "lucide-react"
 
 interface CameraScannerProps {
   onScan: (qrId: string) => void
@@ -17,7 +17,6 @@ export function CameraScanner({ onScan, isLoading, onPermissionNeeded }: CameraS
   const readerRef = useRef<BrowserMultiFormatReader | null>(null)
   const scanningRef = useRef(false)
   const streamRef = useRef<MediaStream | null>(null)
-  const { theme } = useTheme()
 
   const stopCamera = useCallback(() => {
     if (streamRef.current) {
@@ -35,15 +34,13 @@ export function CameraScanner({ onScan, isLoading, onPermissionNeeded }: CameraS
     scanningRef.current = true
 
     try {
-      // Use decodeFromVideoDevice for continuous scanning
-      // This is more efficient than a manual interval
       await readerRef.current.decodeFromVideoDevice(
-        null, // Capture from default device or the one already started
+        null,
         videoRef.current,
         (result, err) => {
           if (result && result.getText() && scanningRef.current && !isLoading) {
             scanningRef.current = false
-            readerRef.current?.reset() // Stop scanning after first successful match
+            readerRef.current?.reset()
             onScan(result.getText())
           }
           if (err && !(err.name === "NotFoundException" || err.name === "ChecksumException" || err.name === "FormatException")) {
@@ -57,7 +54,6 @@ export function CameraScanner({ onScan, isLoading, onPermissionNeeded }: CameraS
     }
   }, [onScan, isLoading])
 
-
   const initCamera = useCallback(async () => {
     setError("")
     try {
@@ -66,7 +62,7 @@ export function CameraScanner({ onScan, isLoading, onPermissionNeeded }: CameraS
       }
 
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
+        video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
       })
 
       setHasPermission(true)
@@ -96,74 +92,90 @@ export function CameraScanner({ onScan, isLoading, onPermissionNeeded }: CameraS
 
   if (hasPermission === false) {
     return (
-      <div className="bg-destructive/10 border border-destructive/50 rounded-2xl p-8 text-center backdrop-blur-sm">
-        <div className="w-16 h-16 bg-destructive/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">📸</span>
+      <div className="absolute inset-0 flex items-center justify-center bg-background p-6">
+        <div className="text-center max-w-sm">
+          <div className="w-20 h-20 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span className="text-3xl">📸</span>
+          </div>
+          <h3 className="text-xl font-bold mb-3">Camera Access Needed</h3>
+          <p className="text-muted-foreground mb-8">
+            Please allow camera access to scan QR codes and claim your rewards.
+          </p>
+          <button
+            onClick={() => initCamera()}
+            className="w-full py-4 bg-primary text-primary-foreground rounded-2xl font-bold shadow-lg shadow-primary/30"
+          >
+            Enable Camera
+          </button>
         </div>
-        <h3 className="text-foreground font-semibold mb-2">Camera Access Required</h3>
-        <p className="text-muted-foreground text-sm mb-6 max-w-xs mx-auto">
-          Please allow camera access in your browser settings to scan QR codes.
-        </p>
-        <button
-          onClick={() => initCamera()}
-          className="w-full sm:w-auto px-8 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition transform active:scale-95 font-semibold shadow-lg shadow-primary/20"
-        >
-          Try Again
-        </button>
       </div>
     )
   }
 
   return (
-    <div className="relative bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl scanner-glow">
+    <div className="fixed inset-0 bg-black z-0">
       <video
         ref={videoRef}
         autoPlay
         playsInline
         muted
-        className="w-full aspect-[4/3] sm:aspect-square object-cover"
+        className="w-full h-full object-cover"
         style={{ display: hasPermission === true ? "block" : "none" }}
       />
 
-      {/* Initializing state */}
-      {hasPermission === null && !error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
-          <div className="text-center">
-            <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-primary font-medium">Starting Camera...</p>
-          </div>
+      {/* Initializing / Loading state */}
+      {(hasPermission === null || isLoading) && (
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+          <p className="text-primary font-bold tracking-wider">
+            {isLoading ? "PROCESSING SCAN..." : "PREPARING SCANNER..."}
+          </p>
         </div>
       )}
 
-      {/* scanner overlay */}
+      {/* Immersive Scanner Overlay */}
       {hasPermission === true && !isLoading && (
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Scanning frame corner marks */}
-          <div className="absolute inset-[15%] border-2 border-primary/20 rounded-2xl">
-            <div className="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-xl" />
-            <div className="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-xl" />
-            <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-xl" />
-            <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-xl" />
-          </div>
+        <div className="absolute inset-0 z-10">
+          {/* Transparent Overlay with Cutout Mask */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "rgba(0, 0, 0, 0.5)",
+              clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 15% 25%, 15% 65%, 85% 65%, 85% 25%, 15% 25%)"
+            }}
+          />
 
-          {/* Scanning line animation */}
-          <div className="absolute top-[15%] left-[15%] right-[15%] h-0.5 bg-primary/60 shadow-[0_0_15px_rgba(var(--color-primary),0.8)] animate-pulse" />
-        </div>
-      )}
+          {/* Scanning Box */}
+          <div className="absolute top-[25%] left-[15%] right-[15%] bottom-[35%]">
+            {/* Corners */}
+            <div className="absolute -top-1 -left-1 w-12 h-12 border-t-4 border-l-4 border-primary rounded-tl-2xl shadow-[0_0_15px_rgba(var(--color-primary),0.5)]" />
+            <div className="absolute -top-1 -right-1 w-12 h-12 border-t-4 border-r-4 border-primary rounded-tr-2xl shadow-[0_0_15px_rgba(var(--color-primary),0.5)]" />
+            <div className="absolute -bottom-1 -left-1 w-12 h-12 border-b-4 border-l-4 border-primary rounded-bl-2xl shadow-[0_0_15px_rgba(var(--color-primary),0.5)]" />
+            <div className="absolute -bottom-1 -right-1 w-12 h-12 border-b-4 border-r-4 border-primary rounded-br-2xl shadow-[0_0_15px_rgba(var(--color-primary),0.5)]" />
 
-      {/* Loading/Processing state */}
-      {isLoading && (
-        <div className="absolute inset-0 bg-slate-900/80 flex items-center justify-center backdrop-blur-md">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-primary font-bold text-lg">Validating QR Code...</p>
+            {/* Scanning Line */}
+            <div className="scanning-line animate-scan" />
+
+            <div className="absolute -bottom-20 left-0 right-0 text-center">
+              <p className="text-white/80 text-sm font-medium bg-black/40 backdrop-blur-md py-2 px-4 rounded-full inline-block">
+                Align QR code within the frame to scan
+              </p>
+            </div>
           </div>
         </div>
       )}
 
       {error && (
-        <div className="absolute inset-0 bg-destructive/10 flex items-center justify-center backdrop-blur-sm p-6">
-          <p className="text-destructive font-semibold text-center">{error}</p>
+        <div className="absolute inset-0 z-50 bg-destructive/10 flex items-center justify-center backdrop-blur-sm p-6 text-center">
+          <div className="bg-background/90 p-8 rounded-3xl border border-destructive/50 shadow-2xl">
+            <p className="text-destructive font-bold text-lg mb-4">{error}</p>
+            <button
+              onClick={() => initCamera()}
+              className="px-6 py-2 bg-primary text-primary-foreground rounded-lg"
+            >
+              Retry
+            </button>
+          </div>
         </div>
       )}
     </div>

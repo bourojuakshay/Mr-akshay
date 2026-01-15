@@ -18,6 +18,7 @@ export function Header() {
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
+    { href: "/impact", label: "Impact" },
     { href: "/scanner", label: "Scan" },
     { href: "/about", label: "About" },
     { href: "/profile", label: "Profile" },
@@ -49,11 +50,10 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                  }`}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive(item.href)
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    }`}
                 >
                   {item.label}
                 </Link>
@@ -84,7 +84,8 @@ export function Header() {
                 <LogOut className="w-5 h-5" />
               </button>
 
-              {/* Mobile Menu Toggle */}
+              {/* Mobile Menu Toggle - REMOVED for Bottom Nav UX */}
+              {/* 
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
@@ -92,10 +93,12 @@ export function Header() {
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
+              */}
             </div>
           </div>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Navigation - REMOVED for Bottom Nav UX */}
+          {/* 
           {mobileMenuOpen && (
             <nav className="md:hidden pb-4 space-y-2 animate-in slide-in-from-top-2">
               {navItems.map((item) => (
@@ -114,6 +117,7 @@ export function Header() {
               ))}
             </nav>
           )}
+          */}
         </div>
       </header>
     </>

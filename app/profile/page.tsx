@@ -1,7 +1,6 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { Header } from "@/components/header"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { db } from "@/lib/firebase"
@@ -49,7 +48,6 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
 
       <div className="relative py-6 sm:py-8 px-4 sm:px-6">
         {/* background effects */}

@@ -139,6 +139,14 @@
     animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
+  .animate-scan {
+    animation: scan 2s linear infinite;
+  }
+
+  .scanning-line {
+    @apply absolute w-full h-1 bg-primary/80 shadow-[0_0_15px_rgba(var(--color-primary),1)] z-10;
+  }
+
   .scanner-border {
     @apply border-2 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.5)];
   }
@@ -233,6 +241,23 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes scan {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
     }
   }
 }

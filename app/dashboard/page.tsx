@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { WalletCard } from "@/components/wallet-card"
 import { RecentClaims } from "@/components/recent-claims"
-import { Header } from "@/components/header"
 import Link from "next/link"
 import { Zap, TrendingUp, Leaf } from "lucide-react"
 
@@ -29,7 +28,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
 
       <div className="relative py-6 sm:py-8 px-4 sm:px-6">
         {/* background effects */}
