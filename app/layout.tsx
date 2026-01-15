@@ -45,7 +45,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <Header />
-            <main className="pb-24 md:pb-20 min-h-screen">
+            <main className="pb-24 md:pb-0 min-h-screen">
               {children}
             </main>
             <BottomNav />

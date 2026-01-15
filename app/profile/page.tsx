@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { db } from "@/lib/firebase"
 import { doc, getDoc } from "firebase/firestore"
-import { Mail, Calendar, Trophy, Target } from "lucide-react"
+import { useTheme } from "@/lib/theme-context"
+import { Mail, Calendar, Trophy, Target, LogOut, Sun, Moon } from "lucide-react"
 
 export default function ProfilePage() {
-  const { user, loading } = useAuth()
+  const { user, loading, logout } = useAuth()
+  const { theme, toggleTheme } = useTheme()
   const router = useRouter()
   const [userStats, setUserStats] = useState<any>(null)
   const [loadingStats, setLoadingStats] = useState(true)
@@ -113,30 +115,35 @@ export default function ProfilePage() {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-muted-foreground mb-2">Email Address</label>
-                <input
-                  type="email"
-                  value={user.email || ""}
-                  disabled
-                  className="w-full px-4 py-3 bg-muted border border-border rounded-lg text-foreground opacity-50 cursor-not-allowed"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-muted-foreground mb-2">Account Status</label>
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-                  <span className="text-foreground font-medium">Active</span>
+                <div className="flex items-center gap-2 p-3 bg-muted/50 border border-border rounded-xl">
+                  <Mail className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-foreground font-medium">{user.email}</span>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-muted-foreground mb-2">Verification</label>
-                <div className="bg-muted border border-border rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground">
-                    {user.emailVerified ? "✓ Email verified" : "⚠ Verify your email"}
-                  </p>
+              <div className="flex items-center justify-between p-4 bg-muted/30 border border-border rounded-xl">
+                <div>
+                  <p className="font-semibold text-foreground">Theme Mode</p>
+                  <p className="text-sm text-muted-foreground">Switch between light and dark</p>
                 </div>
+                <button
+                  onClick={toggleTheme}
+                  className="p-3 bg-card border border-border rounded-xl shadow-sm hover:border-primary/50 transition-colors"
+                >
+                  {theme === "dark" ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-primary" />}
+                </button>
               </div>
+
+              <button
+                onClick={async () => {
+                  await logout()
+                  router.push("/")
+                }}
+                className="w-full flex items-center justify-center gap-3 p-4 bg-destructive/10 hover:bg-destructive/20 text-destructive border border-destructive/20 rounded-xl transition-colors font-bold"
+              >
+                <LogOut className="w-5 h-5" />
+                Sign Out
+              </button>
             </div>
           </div>
         </div>
