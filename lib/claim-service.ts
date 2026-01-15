@@ -1,5 +1,5 @@
 import { db } from "./firebase"
-import { doc, getDoc, runTransaction } from "firebase/firestore"
+import { doc, getDoc, runTransaction, collection, serverTimestamp } from "firebase/firestore"
 
 export interface QRData {
   amount: number
@@ -67,6 +67,18 @@ export async function claimQRCode(
         wallet: newWallet,
       })
       console.log("[v0] Wallet updated to:", newWallet)
+
+      // Record transaction
+      const txRef = doc(collection(db, "transactions"))
+      transaction.set(txRef, {
+        userId: userId,
+        amount: qrData.amount,
+        type: 'claim',
+        status: 'completed',
+        createdAt: serverTimestamp(),
+        description: `Claimed ${qrData.wasteType} waste reward`
+      })
+      console.log("[v0] Transaction recorded")
 
       return {
         success: true,

@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import { doc, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import { useAuth } from "@/lib/auth-context"
-import { CreditCard, Wallet, ArrowUpRight } from "lucide-react"
+import { CreditCard, Wallet, ArrowUpRight, ChevronRight } from "lucide-react"
+import Link from "next/link"
 
 export function WalletCard() {
   const { user } = useAuth()
@@ -46,7 +47,10 @@ export function WalletCard() {
   }, [wallet, displayWallet])
 
   return (
-    <div className="relative group overflow-hidden bg-slate-900 border border-slate-800 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 shadow-2xl transition-all duration-500 hover:shadow-cyan-500/10 active:scale-[0.99] scanner-border">
+    <Link
+      href="/transactions"
+      className="block relative group overflow-hidden bg-slate-900 border border-slate-800 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 shadow-2xl transition-all duration-500 hover:shadow-cyan-500/10 active:scale-[0.98] cursor-pointer scanner-border"
+    >
       {/* Glossy Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
 
@@ -62,7 +66,10 @@ export function WalletCard() {
             </div>
             <span className="text-slate-400 text-[10px] md:text-sm font-bold tracking-widest uppercase">Digital Wallet</span>
           </div>
-          <CreditCard className="w-5 h-5 md:w-6 md:h-6 text-slate-700" />
+          <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700/50 group-hover:bg-slate-700 transition-colors">
+            <span className="text-[9px] font-black uppercase text-cyan-400 tracking-tighter">Manage</span>
+            <ChevronRight className="w-3 h-3 text-cyan-400" />
+          </div>
         </div>
 
         <div className="space-y-1">
@@ -86,12 +93,12 @@ export function WalletCard() {
             </div>
           </div>
 
-          <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl flex items-center gap-2 group-hover:bg-white/10 transition-colors cursor-default">
-            <span className="text-[10px] text-slate-400 font-bold uppercase">Ready to claim</span>
+          <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl flex items-center gap-2 group-hover:bg-white/10 transition-colors">
+            <span className="text-[10px] text-slate-400 font-bold uppercase">View History</span>
             <ArrowUpRight className="w-3 h-3 text-cyan-400" />
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
